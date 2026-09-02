@@ -82,40 +82,43 @@ def detalhes_pokemon(id):
         "habilidades": habilidades,
         "hp": dados["stats"][0]["base_stat"],
         "ataque": dados["stats"][1]["base_stat"],
-        "defesa": dados["stats"][2]["base_stat"]
+        "defesa": dados["stats"][2]["base_stat"],
+        "geracao": dados["game_indices"][0]["version"]["name"],
+        "shiny": dados["sprites"]["other"]["home"]["front_shiny"]
     }
 
     return jsonify(pokemon)
 
-@app.route("/pokemons", methods=["GET"])
-def listar_pokemons():
 
-    resposta = requests.get(
-        "https://pokeapi.co/api/v2/pokemon?limit=30"
-    )
-
-    dados = resposta.json()
-
-    pokemons = []
-
-    for pokemon in dados["results"]:
-
-        detalhes = requests.get(
-            pokemon["url"]
-        ).json()
-
-        pokemon_formatado = {
-            "id": detalhes["id"],
-            "nome": detalhes["name"],
-            "imagem": detalhes["sprites"]["front_default"],
-            "tipo": detalhes["types"][0]["type"]["name"]
-        }
-
-        pokemons.append(
-            pokemon_formatado
+# PESQUISA DE UM POKEMON
+@app.route("/pokemons/pesquisa/<string:busca>", methods=["GET"])
+def pesquisar_pokemon(busca):
+    try:
+        resposta = requests.get(
+            f"https://pokeapi.co/api/v2/pokemon/{busca}"
         )
 
-    return jsonify(pokemons)
+        if resposta.status_code != 200:
+            return jsonify({
+                "erro": "Pokémon não encontrado"
+            }), 404
+
+        dados = resposta.json()
+
+        pokemon_formatado = {
+            "id": dados["id"],
+            "nome": dados["name"],
+            "imagem": dados["sprites"]["front_default"],
+            "tipo": [tipo["type"]["name"] for tipo in dados["types"]]
+        }
+
+        return jsonify([pokemon_formatado])
+
+    except requests.exceptions.RequestException as e:
+        return jsonify({
+            "erro": "Erro ao se conectar à PokéAPI",
+            "detalhes": str(e)
+        }), 500
 
 
 if __name__ == "__main__":

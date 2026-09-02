@@ -44,7 +44,7 @@ class PokemonService {
   static Future<List<dynamic>> pesquisarPkmn(String busca) async {
     final resposta = await http.get(
       Uri.parse(
-        '$url/$busca',
+        '$url/pesquisa/$busca',
       ),
     );
 

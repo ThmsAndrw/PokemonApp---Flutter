@@ -421,6 +421,75 @@ class _TelaDetalhesPokemonState extends State<TelaDetalhesPokemon> {
                               height: 30,
                             ),
 
+                            Text(
+                              "Shiny:",
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            const SizedBox(
+                              height: 15,
+                            ),
+
+                            Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: Colors.blueGrey,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: Image.network(
+                                  pokemon['shiny'],
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(
+                              height: 30,
+                            ),
+
+                            Text(
+                              "Geração:",
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            const SizedBox(
+                              height: 15,
+                            ),
+
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 15,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(
+                                  255,
+                                  235,
+                                  235,
+                                  235,
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                  20,
+                                ),
+                              ),
+                              child: Text(
+                                pokemon["geracao"].toString().toUpperCase(),
+                              ),
+                            ),
+
+                            const SizedBox(
+                              height: 30,
+                            ),
+
                             // =============================
                             // BOTÃO VOLTAR
                             // =============================
